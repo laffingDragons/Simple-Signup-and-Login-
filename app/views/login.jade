@@ -1,0 +1,21 @@
+doctype html
+html
+  body
+    h2(style='color:#4CAF50')  SignUp to Explore more
+    form(method='post',action='http://localhost:3000/v1/users/signup')
+      | E-mail:
+      br
+      |   
+      input(style='border:0px; border-bottom:solid 2px #4CAF50', type='text', name='email', value='', placeholder='Email id')
+      |   
+      br
+      |   Password:
+      br
+      |   
+      input(style='border:0px; border-bottom:solid 2px #4CAF50', type='text', name='password', value='', placeholder='Password')
+      |   
+      br
+      hr
+      |   
+      |   
+      input(style='background-color:#4CAF50; color:white', type='submit', value='Login')

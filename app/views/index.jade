@@ -1,0 +1,41 @@
+doctype html
+html
+  body
+    h2(style='color:#4CAF50')  SignUp to Explore more
+    form(action='http://localhost:3000/v1/users/signup')
+      | First name:
+      br
+      |   
+      input(style='border:0px; border-bottom:solid 2px #4CAF50', type='text', name='firstName', value='', placeholder='First Name')
+      |   
+      br
+      |   Last name:
+      br
+      |   
+      input(style='border:0px; border-bottom:solid 2px #4CAF50', type='text', name='lastName', value='', placeholder='last Name')
+      |   
+      br
+      hr
+      |   Email:
+      br
+      |   
+      input(style='border:0px; border-bottom:solid 2px #4CAF50', type='text', name='email', value='', placeholder='E-mail Id')
+      |   
+      br
+      br
+      |   Phone no:
+      br
+      |   
+      input(style='border:0px; border-bottom:solid 2px #4CAF50', type='text', name='mobileNumber', value='', placeholder='Mobile No.')
+      |   
+      br
+      br
+      |   Password:
+      br
+      |   
+      input(style='border:0px; border-bottom:solid 2px #4CAF50', type='text', name='password', value='', placeholder='Password')
+      |   
+      br
+      br
+      |   
+      input(style='background-color:#4CAF50; color:white', type='submit', value='signup')

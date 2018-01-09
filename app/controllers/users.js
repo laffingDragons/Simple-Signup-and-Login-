@@ -93,7 +93,7 @@ module.exports.controllerFunction = function(app) {
     // this should be the last line
     // now making it global to app using a middleware
     // think of this as naming your api 
-    app.use('/users', userRouter);
+    app.use('/v1/users', userRouter);
 
 
 
