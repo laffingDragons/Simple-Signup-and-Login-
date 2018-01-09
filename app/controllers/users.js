@@ -24,9 +24,7 @@ module.exports.controllerFunction = function (app) {
 
     userRouter.get('/dashboard', auth.checkLogin, function (req, res) {
 
-        res.render('dashboard', {
-            user: req.user
-        });
+        res.render('dashboard', {user: req.session.user});
 
 
     }); //end get dashboard
@@ -91,7 +89,7 @@ module.exports.controllerFunction = function (app) {
         if (req.body.firstName != undefined && req.body.lastName != undefined && req.body.email != undefined && req.body.password != undefined) {
 
             var newUser = new userModel({
-                userName: req.body.firstName + '' + req.body.lastName,
+                userName: req.body.firstName + req.body.lastName,
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 email: req.body.email,
@@ -116,6 +114,9 @@ module.exports.controllerFunction = function (app) {
                     //var myResponse = responseGenerator.generate(false,"successfully signup user",200,newUser);
                     // res.send(myResponse);
                     req.session.user = newUser;//request.session golbal var 
+                    
+                    //deleting because if any hacker hacks into the database he can get only tempory access.
+                    
                     delete req.session.user.password;
                     res.redirect('/users/dashboard')
                 }
@@ -169,6 +170,7 @@ module.exports.controllerFunction = function (app) {
             } else {
 
                 req.session.user = newUser;
+                
                 //delete the password form the session 
                 delete req.session.user.password;
                 res.redirect('/users/dashboard')

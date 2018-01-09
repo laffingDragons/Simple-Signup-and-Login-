@@ -69,6 +69,43 @@ fs.readdirSync('./app/controllers').forEach(function (file) {
 
 }); //end for each
 
+//including auth file here
+
+var auth = require('./middlewares/auth');
+var mongoose = require('mongoose');
+var userModel = mongoose.model('User');
+
+//set tthe middleware as an application level middleware
+app.use(function(req,res,next){
+    
+    //its checking wether this session and session.user exist or not
+    
+    //to check if its a legitimate user of the system
+	if(req.session && req.session.user){
+		userModel.findOne({'email':req.session.user.email},function(err,user){
+
+			if(user){
+                //setting another variable here
+				/*req.user = user;
+				delete req.user.password;*/ 
+				req.session.user = user;
+                //deleting the password
+                delete req.session.user.password;
+				next()
+			}
+			else{
+				// do nothing , because this is just to set the values
+			}
+		});
+	}
+	else{
+		next();
+	}
+
+
+});
+
+
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
