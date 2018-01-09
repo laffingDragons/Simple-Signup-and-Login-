@@ -1,25 +1,38 @@
 var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
+// module for maintaining sessions
+var session = require('express-session');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-//path is used to get file from our computer
+// path is used the get the path of our files on the computer
 var path = require ('path');
 
 app.use(logger('dev'));
-
 app.use(bodyParser.json({limit:'10mb',extended:true}));
 app.use(bodyParser.urlencoded({limit:'10mb',extended:true}));
 app.use(cookieParser());
 
-//set
+// initialization of session middleware 
+
+app.use(session({
+  name :'myCustomCookie',
+  secret: 'myAppSecret', // encryption key 
+  resave: true,
+  httpOnly : true,  // to aviod cookie forgery
+  saveUninitialized: true,
+  cookie: { secure: false } //make true for ssl
+}));
+
+// set the templating engine 
 app.set('view engine', 'jade');
-app.set('views',path.join(__dirname +'/app/views'));
+
+//set the views folder
+app.set('views', path.join(__dirname + '/app/views'));
 
 
-
-var dbPath = "mongodb://localhost/LinkIn";
+var dbPath = "mongodb://localhost/edStersDb";
 
 // command to connect with database
 db = mongoose.connect(dbPath);
@@ -56,6 +69,13 @@ fs.readdirSync('./app/controllers').forEach(function (file) {
 
 }); //end for each
 
+app.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: err
+    });
+});
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');
