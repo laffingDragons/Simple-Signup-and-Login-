@@ -8,7 +8,7 @@
     "cookie-parser": "latest",
     "express": "*",
     "express-session": "*",
-    "jade": "*",
+    "jade": "^1.11.0",
     "mongoose": "*",
     "morgan": "*",
     "pug": "*"

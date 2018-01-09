@@ -19,7 +19,7 @@ app.set('views',path.join(__dirname +'/app/views'));
 
 
 
-var dbPath = "mongodb://localhost/edStersDb";
+var dbPath = "mongodb://localhost/LinkIn";
 
 // command to connect with database
 db = mongoose.connect(dbPath);

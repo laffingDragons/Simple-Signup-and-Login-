@@ -7,7 +7,80 @@ var userModel = mongoose.model('User')
 var responseGenerator = require('./../../libs/responseGenerator');
 
 
-module.exports.controllerFunction = function(app) {   
+
+module.exports.controllerFunction = function(app) {
+
+    userRouter.get('/login/screen',function(req,res){
+            
+        res.render('login');
+
+    });//end get login screen
+
+     userRouter.get('/signup/screen',function(req,res){
+            
+        res.render('signup');
+
+    });//end get signup screen
+
+     userRouter.get('/dashboard',function(req,res){
+        
+            res.render('dashboard',{user:req.user});
+       
+
+    });//end get dashboard
+
+    userRouter.get('/logout',function(req,res){
+      
+      
+
+        res.render('login');
+
+     
+    });//end logout
+    
+
+    userRouter.get('/all',function(req,res){
+        userModel.find({},function(err,allUsers){
+            if(err){                
+                res.send(err);
+            }
+            else{
+
+                res.send(allUsers);
+
+            }
+
+        });//end user model find 
+
+    });//end get all users
+
+    userRouter.get('/:userName/info',function(req,res){
+
+        userModel.findOne({'userName':req.params.userName},function(err,foundUser){
+            if(err){
+                var myResponse = responseGenerator.generate(true,"some error"+err,500,null);
+                res.send(myResponse);
+            }
+            else if(foundUser==null || foundUser==undefined || foundUser.userName==undefined){
+
+                var myResponse = responseGenerator.generate(true,"user not found",404,null);
+                //res.send(myResponse);
+                res.render('error', {
+                  message: myResponse.message,
+                  error: myResponse.data
+                });
+
+            }
+            else{
+
+                  res.render('dashboard', { user:foundUser  });
+
+            }
+
+        });// end find
+      
+
+    });//end get all users
 
     userRouter.post('/signup',function(req,res){
 
@@ -27,16 +100,20 @@ module.exports.controllerFunction = function(app) {
             newUser.save(function(err){
                 if(err){
 
-                    var myResponse = responseGenerator.generate(true,err,500,null);
-                   res.send(myResponse);
-                  
+                    var myResponse = responseGenerator.generate(true,"some error"+err,500,null);
+                   //res.send(myResponse);
+                   res.render('error', {
+                     message: myResponse.message,
+                     error: myResponse.data
+                   });
 
                 }
                 else{
 
-                    var myResponse = responseGenerator.generate(false,"successfully signup user",200,newUser);
-                    res.send(myResponse);
+                    //var myResponse = responseGenerator.generate(false,"successfully signup user",200,newUser);
+                   // res.send(myResponse);
                    
+                   res.render('dashboard')
                 }
 
             });//end new user save
@@ -52,14 +129,17 @@ module.exports.controllerFunction = function(app) {
                 data: null
             };
 
-            res.send(myResponse);
+            //res.send(myResponse);
 
-            
+             res.render('error', {
+                     message: myResponse.message,
+                     error: myResponse.data
+              });
 
         }
         
 
-    });//end signup api
+    });//end get all users
 
 
     userRouter.post('/login',function(req,res){
@@ -72,28 +152,30 @@ module.exports.controllerFunction = function(app) {
             else if(foundUser==null || foundUser==undefined || foundUser.userName==undefined){
 
                 var myResponse = responseGenerator.generate(true,"user not found. Check your email and password",404,null);
-                res.send(myResponse);
-              
+                //res.send(myResponse);
+                res.render('error', {
+                  message: myResponse.message,
+                  error: myResponse.data
+                });
 
             }
             else{
 
-                var myResponse = responseGenerator.generate(false,"successfully logged in user",200,foundUser);
-                res.send(myResponse);
-                  
+                 
+                  res.render('dashboard')
 
             }
 
         });// end find
 
 
-    });// end login api
+    });//end get signup screen
 
 
     // this should be the last line
     // now making it global to app using a middleware
     // think of this as naming your api 
-    app.use('/v1/users', userRouter);
+    app.use('/users', userRouter);
 
 
 
