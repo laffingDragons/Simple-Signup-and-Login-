@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var mongoose = require('mongoose');
 // module for maintaining sessions
 var session = require('express-session');
 var logger = require('morgan');
