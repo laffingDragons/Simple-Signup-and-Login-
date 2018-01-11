@@ -169,9 +169,8 @@ module.exports.controllerFunction = function (app) {
 
             } else {
 
-                req.session.user = newUser;
-                
-                //delete the password form the session 
+                req.session.user = foundUser;
+                 //delete the password form the session 
                 delete req.session.user.password;
                 res.redirect('/users/dashboard')
 

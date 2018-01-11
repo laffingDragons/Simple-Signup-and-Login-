@@ -5,6 +5,8 @@ var session = require('express-session');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var mongoose = require('mongoose');
+
 // path is used the get the path of our files on the computer
 var path = require ('path');
 
@@ -31,17 +33,14 @@ app.set('view engine', 'jade');
 app.set('views', path.join(__dirname + '/app/views'));
 
 
-var dbPath = "mongodb://localhost/edStersDb";
-
-// command to connect with database
+var dbPath = "mongodb://localhost/LinkInDB";
+//command to connect with database
 db = mongoose.connect(dbPath);
 
 mongoose.connection.once('open', function () {
 
-    console.log("database connection open success");
-
+    console.log("Database Connection open successfully");
 });
-
 
 
 // fs module, by default module for file management in nodejs
